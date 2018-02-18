@@ -167,6 +167,10 @@ input.input--white {
 #waitlist_remodal h1 {
     font-size: 18px;
 }
+h3.waitlist_error {
+    font-size: 18px;
+    margin-top: 15px;
+}
 .remodal .body_content {
     text-align: center;
     padding: 20px 0 0;
@@ -205,8 +209,18 @@ input.input--white {
 	padding-top: 10px;
     padding-bottom: 10px;
 	}
+	
 }
 @media only screen and (max-width: 47.99em) {
+	h3.waitlist_error {
+    font-size: 14px;
+	font-weight: bold;
+	}
+	.wcwl_email_field {
+    margin: 0;
+    float: none;
+    margin-bottom: 10px;
+	}
 	.heading--xlarge {
 		font-size: 20px;
 	}
@@ -3661,4 +3675,7 @@ div#epsilon-stored-info p {
 }
 .els-copyright-bar .els-align-center {
     opacity: .8;
+}
+.clzwaitlisttop {
+    margin-bottom: 15px;
 }

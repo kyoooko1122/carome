@@ -46,6 +46,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 			);
 			?>
 		</div>
+		
+		
+		<div class="order-status serif">
+			<span class="label"><?php _e( 'Payment Status', 'elsey' ); ?></span>		
+		<?php
+			$orderxid=$order->get_id();
+			$paidstatus=get_post_meta( $orderxid, '_custom_payment_status', true );
+				switch($paidstatus){
+              case '1':
+                $payment_status = __( 'Paid', 'woocommerce-payment-status' );
+                break;
+              case '2':
+                $payment_status = __( 'Partially Paid', 'woocommerce-payment-status');
+                break;              
+              default:
+                $payment_status = __( 'Not Paid', 'woocommerce-payment-status' );
+                break;
+            }
+			
+			echo '<span class="value"><mark class="payment-status">'.$payment_status.'</mark></span>';
+	
+			?>
+		</div>
 		<p class="order--details__date serif">
 			<span class="label"><?php _e( 'Order date', 'elsey' ); ?></span>
 			<?php

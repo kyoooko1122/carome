@@ -193,7 +193,7 @@ msgstr ""
 #: classes/class-pie-wcwl-frontend-ui.php:956
 #: classes/class-pie-wcwl-waitlist.php:406
 msgid "Join waitlist"
-msgstr ""
+msgstr "test"
 
 #: classes/class-pie-wcwl-frontend-ui.php:957
 msgid "Leave waitlist"

@@ -33,7 +33,7 @@ echo '</h1>';
 ?>
 
 <script type="text/javascript">
-	var already_in_waitlist = 'Already in waitlist';
+	var already_in_waitlist = 'すでに再入荷通知に登録されています';
 </script>
 <div class="remodal" data-remodal-id="waitlist_remodal" id="waitlist_remodal" data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
 

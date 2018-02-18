@@ -45,6 +45,28 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 								<span class="label"><?php esc_html_e( 'Status', 'elsey' ); ?></span>
 								<span class="value"><?php echo esc_html( wc_get_order_status_name( $order->get_status() ) ); ?></span>
 							</div>
+							<div class="order-status serif">
+								<span class="label"><?php esc_html_e( 'Payment Status', 'elsey' ); ?></span>
+								<span class="value">	<?php
+								 $orderxid=$order->get_id();
+							   $paidstatus=get_post_meta( $orderxid, '_custom_payment_status', true );
+				switch($paidstatus){
+              case '1':
+                $payment_status = __( 'Paid', 'woocommerce-payment-status' );
+                break;
+              case '2':
+                $payment_status = __( 'Partially Paid', 'woocommerce-payment-status');
+                break;              
+              default:
+                $payment_status = __( 'Not Paid', 'woocommerce-payment-status' );
+                break;
+            }
+			
+echo $payment_status;
+	
+						?></span>
+							</div>
+							
 						
 							<p class="order__total serif display--small-up">
 								<span class="label"><?php esc_html_e( 'Total', 'elsey' ); ?></span>

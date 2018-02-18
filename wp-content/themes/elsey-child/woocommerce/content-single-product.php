@@ -70,7 +70,7 @@ if ( $product_sticky ) {
 		<?php } ?>
 		
 		<div class="row"> 
-    		<div class="els-product-image-col col-md-6 col-xs-12"> 
+    		<div class="els-product-image-col col-md-6 col-xs-12 images"> 
     	  		<!-- Custom Changes Ends --> 
 				<?php
 					/**

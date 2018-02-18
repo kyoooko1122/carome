@@ -100,7 +100,20 @@ if ( ! class_exists( 'Pie_WCWL_Frontend_Simple' ) ) {
 		 */
 		private function get_waitlist_elements_for_logged_out_user( $string ) {
 			$url = $this->create_button_url( 'join' );
-			$string .= '<form name="wcwl_add_user_form" action="' . esc_url( $url ) . '" method="post">';
+			
+			$varmsh='';
+			
+	if (! is_user_logged_in() &&  !isset($_GET['woocommerce_waitlist']) ) {
+	
+	$varmsh= __( 'If this product is restocked, we will notify by email', 'woocommerce-waitlist' );
+	
+	echo '<style>.button.alt.woocommerce_waitlist.join{margin-top: 18px;}</style>';
+	}		
+			
+			$string .= '<form name="wcwl_add_user_form" action="' . esc_url( $url ) . '" method="post"><div class="clzwaitlisttop">'.$varmsh.'</div>';
+			
+			
+			
 			if ( ! WooCommerce_Waitlist_Plugin::users_must_be_logged_in_to_join_waitlist() ) {
 				$string .= $this->get_waitlist_email_field();
 			}
@@ -125,6 +138,18 @@ if ( ! class_exists( 'Pie_WCWL_Frontend_Simple' ) ) {
 			$text        = apply_filters( 'wcwl_' . $context . '_waitlist_button_text', $this->$text_string );
 			$url         = $url ? $url : $this->create_button_url( $context );
 
+				
+			
+			
+			
+			/*
+			if ($tst ) {
+				$varmsh='Test here';
+			}
+			
+			*/
+			
+			
 			return apply_filters( 'wcwl_' . $context . '_waitlist_button_html', '<div class="wcwl_control"><a href="' . esc_url( $url ) . '" class="' . esc_attr( $classes ) . '" data-id="' . $this->product_id . '" id="wcwl-product-' . esc_attr( $this->product_id ) . '">' . esc_html( $text ) . '</a></div>' );
 		}
 

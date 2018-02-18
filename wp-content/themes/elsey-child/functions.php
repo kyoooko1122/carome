@@ -384,11 +384,20 @@ if ( $availability['availability'] == 'Out of stock') {
 }
 /****** NOT WORKING************/
 /*hide stock not working*/
-function my_wc_hide_in_stock_message( $html, $text, $product ) {
+function my_wc_hide_in_stock_message( $html='', $text, $product='' ) {
+	
+	if($product !=''){
 	$availability = $product->get_availability();
 	if ( isset( $availability['class'] ) && 'in-stock' === $availability['class'] ) {
 		return '';
 	}
+	}else{
+	
+	if ('in-stock' != $text ) {
+		return '';
+	}
+	}
+	
 	return $html;
 }
 add_filter( 'woocommerce_stock_html', 'my_wc_hide_in_stock_message', 10, 3 );
@@ -1047,62 +1056,6 @@ function elsey_woe_order_exported($order_id){
 		}
 	}
 }
-
-add_action( 'wp_loaded', 'change_orders_detail_name' );
-function change_orders_detail_name(){
-	if (!isset($_GET['change_old_order_name']) || !$_GET['change_old_order_name'])
-	{
-		return;
-	}
-	
-	$post_status = array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash');
-	$order_statuses = array_keys(wc_get_order_statuses());
-	foreach ($post_status as $post_status)
-	{
-		$order_statuses[] = $post_status;
-	}
-	$orders = get_posts(array(
-		'post_type'   => 'shop_order',
-		'posts_per_page' => '-1',
-		'post_status' => $order_statuses
-	));
-	foreach ($orders as $order)
-	{
-		$order = new WC_Order($order->ID);
-		$order_items = $order->get_items();
-		if (count($order_items))
-		{
-			foreach ($order_items as $order_item)
-			{
-				$order_name_orig = $order_item->get_name();
-				$product_id = $order_item->get_product_id();
-				$product = get_product($product_id);
-				$english_name = get_post_meta($product_id, '_custom_product_text_field', true);
-				$japanese_name = $product->name;
-				
-				$order_names = explode(' - ', $order_name_orig);
-				$order_name_old = '';
-				$order_name_attr = '';
-				foreach ($order_names as $order_name_loop_index => $order_name_ex)
-				{
-					if ($order_name_loop_index < count($order_names) - 1)
-					{
-						$order_name_old .= $order_name_ex;
-					}
-					else {
-						$order_name_attr .= $order_name_ex;
-					}
-				}
-					
-				$new_name = $japanese_name . ' - ' . $order_name_attr;
-				$order_item->set_name($new_name);
-				$order_item->save();
-			}
-		}
-	}
-	
-}
-
 add_action( 'woocommerce_email_before_order_table', 'add_order_email_instructions', 10, 2 );
  
 function add_order_email_instructions( $order, $sent_to_admin ) {
@@ -1122,7 +1075,6 @@ function add_order_email_instructions( $order, $sent_to_admin ) {
     }
   }
 }
-
 /*add_filter('woocommerce_variation_option_name', 'get_text_for_select_based_on_attribute');
 function get_text_for_select_based_on_attribute($atr) {
   $count=0;
@@ -1146,3 +1098,50 @@ function get_text_for_select_based_on_attribute($atr) {
   }
   
 }*/
+
+
+
+
+
+
+
+// Display Fields
+add_action('woocommerce_product_options_general_product_data', 'woocommerce_product_custom_fields');
+
+// Save Fields
+add_action('woocommerce_process_product_meta', 'woocommerce_product_custom_fields_save');
+
+
+function woocommerce_product_custom_fields()
+{
+    global $woocommerce, $post;
+    echo '<div class="product_custom_field">';
+    // Custom Product Text Field
+    woocommerce_wp_text_input(
+        array(
+            'id' => '_custom_product_text_field',
+            'placeholder' => 'Custom Product Text Field',
+            'label' => __('Custom Product Text Field', 'woocommerce'),
+            'desc_tip' => 'true'
+        )
+    );    
+    echo '</div>';
+
+}
+
+
+function woocommerce_product_custom_fields_save($post_id)
+{
+    // Custom Product Text Field
+    $woocommerce_custom_product_text_field = $_POST['_custom_product_text_field'];
+    if (!empty($woocommerce_custom_product_text_field))
+        update_post_meta($post_id, '_custom_product_text_field', esc_attr($woocommerce_custom_product_text_field));
+
+}
+
+
+
+
+
+
+
